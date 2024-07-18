@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: production
+  application:
+    name: Sistema Sênior - ERP
+  info:
+    app:
+      version: 2024.07
