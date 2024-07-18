@@ -24,7 +24,7 @@ public class ProdutoServicoNewDTO {
     @NotBlank(message = "{campo.nomeArquivo.obrigatorio}")
     private String descricao;
 
-    @NotNull(message = "{campo.nomeArquivo.obrigatorio}")
+    @NotNull(message = "{campo.preco.obrigatorio}")
     @DecimalMin(value = "1.00", message = "{campo.preco.maiorQueZero}")
     private Double preco;
 }
