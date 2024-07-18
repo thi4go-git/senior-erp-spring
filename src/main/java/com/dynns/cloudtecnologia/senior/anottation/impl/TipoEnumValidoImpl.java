@@ -1,7 +1,7 @@
 package com.dynns.cloudtecnologia.senior.anottation.impl;
 
 import com.dynns.cloudtecnologia.senior.anottation.TipoEnumValido;
-import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
+import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -12,7 +12,7 @@ public class TipoEnumValidoImpl implements ConstraintValidator<TipoEnumValido, S
     public boolean isValid(String tipoEnumStr, ConstraintValidatorContext context) {
         try {
             if (Objects.nonNull(tipoEnumStr)) {
-                TipoEnum.valueOf(tipoEnumStr.trim());
+                TipoProdutoServicoEnum.valueOf(tipoEnumStr.trim());
                 return true;
             }
             return false;

@@ -31,17 +31,15 @@ public class Pedido {
     @Column(columnDefinition = "UUID")
     private UUID id;
 
-    @OneToMany(mappedBy = "pedido")
-    private List<ItemPedido> itens;
-
     @Column(nullable = false)
     private SituacaoPedidoEnum situacao;
 
     @Column(length = 150)
     private String descricao;
 
-    @Column(nullable = false, name = "percentual_desconto")
-    private int percentualDesconto;
+    @Digits(integer = 10, fraction = 2)
+    @Column(nullable = false, name = "percentual_desconto", precision = 12, scale = 2)
+    private BigDecimal percentualDesconto;
 
     @Digits(integer = 10, fraction = 2)
     @Column(nullable = false, name = "total_bruto", precision = 12, scale = 2)

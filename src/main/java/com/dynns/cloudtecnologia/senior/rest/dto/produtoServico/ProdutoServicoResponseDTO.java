@@ -1,7 +1,7 @@
 package com.dynns.cloudtecnologia.senior.rest.dto.produtoServico;
 
 import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
-import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
+import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,7 +18,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class ProdutoServicoResponseDTO {
     private UUID id;
-    private TipoEnum tipo;
+    private TipoProdutoServicoEnum tipo;
     private String descricao;
     private BigDecimal preco;
 

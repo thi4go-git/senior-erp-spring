@@ -6,14 +6,20 @@ import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoNe
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoUpdateDTO;
 import org.springframework.data.domain.Page;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ProdutoServicoService {
-    ProdutoServico salvar(ProdutoServicoNewDTO produtoServico);
+    ProdutoServico save(ProdutoServicoNewDTO produtoServico);
 
     Optional<ProdutoServico> findByDescricao(String descricao);
 
-    Page<ProdutoServico> findAllPageFilter(int page, int size, ProdutoServicoFilterDTO filter);
+    Page<ProdutoServico> show(int page, int size, ProdutoServicoFilterDTO filter);
 
     ProdutoServico update(String id, ProdutoServicoUpdateDTO dtoUpdate);
+
+    Optional<ProdutoServico> findById(UUID id);
+
+    List<ProdutoServico> findAll();
 }

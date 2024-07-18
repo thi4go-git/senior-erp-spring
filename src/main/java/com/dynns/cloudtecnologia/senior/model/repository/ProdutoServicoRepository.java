@@ -11,4 +11,6 @@ import java.util.UUID;
 @Repository
 public interface ProdutoServicoRepository extends JpaRepository<ProdutoServico, UUID> {
     Optional<ProdutoServico> findByDescricao(String descricao);
+
+    Optional<ProdutoServico> findById(UUID id);
 }

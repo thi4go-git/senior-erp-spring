@@ -1,7 +1,7 @@
 package com.dynns.cloudtecnologia.senior.model.entity;
 
 import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
-import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
+import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -32,7 +32,7 @@ public class ProdutoServico {
     private UUID id;
 
     @Column(nullable = false)
-    private TipoEnum tipo;
+    private TipoProdutoServicoEnum tipo;
 
     @Column(nullable = false, length = 150)
     private String descricao;
@@ -59,4 +59,5 @@ public class ProdutoServico {
         dataAtualizacao = LocalDateTime.now();
         ativo = AtivoEnum.S;
     }
+
 }

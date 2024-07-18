@@ -27,20 +27,20 @@ public class ProdutoServicoController {
     private ProdutoServicoMapper produtoServicoMapper;
 
     @PostMapping
-    public ResponseEntity<ProdutoServicoResponseDTO> salvar(
+    public ResponseEntity<ProdutoServicoResponseDTO> save(
             @RequestBody @Valid ProdutoServicoNewDTO dto
     ) {
-        ProdutoServico ProdutoServicoSalvo = produtoServicoService.salvar(dto);
+        ProdutoServico ProdutoServicoSalvo = produtoServicoService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(ProdutoServicoSalvo));
     }
 
     @PostMapping("/show")
-    public ResponseEntity<Page<ProdutoServicoResponseDTO>> findAllPageFilter(
+    public ResponseEntity<Page<ProdutoServicoResponseDTO>> show(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
             @RequestBody ProdutoServicoFilterDTO filtro
     ) {
-        Page<ProdutoServico> pageProdutoServico = produtoServicoService.findAllPageFilter(page, size, filtro);
+        Page<ProdutoServico> pageProdutoServico = produtoServicoService.show(page, size, filtro);
         return ResponseEntity.ok().body(produtoServicoMapper.pageProdutoServicoToPageProdutoServicoResponseDTO(pageProdutoServico));
     }
 
