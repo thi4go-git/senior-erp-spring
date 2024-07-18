@@ -1,6 +1,7 @@
 package com.dynns.cloudtecnologia.senior.service.impl;
 
 import com.dynns.cloudtecnologia.senior.exception.GeralException;
+import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.ProdutoServicoRepository;
@@ -35,7 +36,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     @Override
     public ProdutoServico salvar(ProdutoServicoNewDTO produtoServicoDto) {
         ProdutoServico produtoServico = ProdutoServico.builder()
-                .tipo(SeniorErpUtil.definirTipoEnum(produtoServicoDto.getTipo().trim()))
+                .tipo(TipoEnum.fromString(produtoServicoDto.getTipo()))
                 .descricao(produtoServicoDto.getDescricao())
                 .preco(BigDecimal.valueOf(produtoServicoDto.getPreco()))
                 .build();
@@ -57,7 +58,12 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
 
         TipoEnum tipo = null;
         if (Objects.nonNull(filter.getTipo())) {
-            tipo = SeniorErpUtil.definirTipoEnum(filter.getTipo().trim());
+            tipo = TipoEnum.fromString(filter.getTipo().trim());
+        }
+
+        AtivoEnum ativo = null;
+        if (Objects.nonNull(filter.getAtivo())) {
+            ativo = AtivoEnum.fromString(filter.getAtivo().trim());
         }
 
         UUID idSanitizado;
@@ -74,14 +80,12 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
         ProdutoServico filtroProdutoServico = produtoServicoMapper.ProdutoServicoFilterDtoToProdutoServico(filter);
         filtroProdutoServico.setId(idSanitizado);
         filtroProdutoServico.setTipo(tipo);
-        filtroProdutoServico.setAtivo(true);
+        filtroProdutoServico.setAtivo(ativo);
 
         Example<ProdutoServico> example = Example.of(filtroProdutoServico, matcher);
         PageRequest pageRequest = PageRequest.of(page, size,
                 Sort.Direction.ASC, "dataCriacao");
 
-        Page<ProdutoServico> pages = produtoServicoRepository.findAll(example, pageRequest);
-
-        return pages;
+        return produtoServicoRepository.findAll(example, pageRequest);
     }
 }

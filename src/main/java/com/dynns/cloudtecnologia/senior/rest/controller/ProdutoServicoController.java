@@ -36,7 +36,7 @@ public class ProdutoServicoController {
     public ResponseEntity<Page<ProdutoServicoResponseDTO>> findAllPageFilter(
             @RequestParam(value = "page", required = false, defaultValue = "0") int page,
             @RequestParam(value = "size", required = false, defaultValue = "10") int size,
-            @RequestBody @Valid ProdutoServicoFilterDTO filtro
+            @RequestBody ProdutoServicoFilterDTO filtro
     ) {
         Page<ProdutoServico> pageProdutoServico = produtoServicoService.findAllPageFilter(page, size, filtro);
         return ResponseEntity.ok().body(produtoServicoMapper.pageProdutoServicoToPageProdutoServicoResponseDTO(pageProdutoServico));

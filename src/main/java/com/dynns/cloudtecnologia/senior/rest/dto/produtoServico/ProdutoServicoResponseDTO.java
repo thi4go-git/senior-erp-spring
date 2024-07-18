@@ -1,11 +1,14 @@
 package com.dynns.cloudtecnologia.senior.rest.dto.produtoServico;
 
+import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,7 +21,9 @@ public class ProdutoServicoResponseDTO {
     private TipoEnum tipo;
     private String descricao;
     private BigDecimal preco;
-    private boolean ativo;
+
+    @Enumerated(EnumType.STRING)
+    private AtivoEnum ativo;
 
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;

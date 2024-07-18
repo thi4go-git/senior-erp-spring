@@ -1,5 +1,6 @@
 package com.dynns.cloudtecnologia.senior.model.entity;
 
+import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
@@ -40,9 +41,6 @@ public class ProdutoServico {
     @Column(nullable = false, precision = 12, scale = 2)
     private BigDecimal preco;
 
-    @Column(nullable = false)
-    private boolean ativo;
-
     @Column(nullable = false, name = "data_criacao")
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
@@ -51,10 +49,14 @@ public class ProdutoServico {
     @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataAtualizacao;
 
+    @Column(nullable = false, length = 1)
+    @Enumerated(EnumType.STRING)
+    private AtivoEnum ativo;
+
     @PrePersist
     protected void onCreate() {
         dataCriacao = LocalDateTime.now();
         dataAtualizacao = LocalDateTime.now();
-        ativo = true;
+        ativo = AtivoEnum.S;
     }
 }
