@@ -44,11 +44,11 @@ public class ProdutoServico {
     private boolean ativo;
 
     @Column(nullable = false, name = "data_criacao")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
 
     @Column(nullable = false, name = "data_atualizacao")
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataAtualizacao;
 
     @PrePersist
