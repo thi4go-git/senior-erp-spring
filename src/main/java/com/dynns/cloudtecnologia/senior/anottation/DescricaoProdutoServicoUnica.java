@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DescricaoProdutoServicoUnica {
-    String message() default "O campo DESCRICAO já está em uso!";
+    String message() default "O campo descricao já está em uso!";
 
     Class<?>[] groups() default {};
 

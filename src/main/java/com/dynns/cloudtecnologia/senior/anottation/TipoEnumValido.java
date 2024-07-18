@@ -12,7 +12,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TipoEnumValido {
-    String message() default "O campo TIPO não contém um TipoEnum válido (PRODUTO/SERVICO)!";
+    String message() default "O campo tipo não contém um TipoEnum válido = PRODUTO ou SERVICO.";
 
     Class<?>[] groups() default {};
 

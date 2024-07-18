@@ -5,13 +5,17 @@ import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.Objects;
 
 public class TipoEnumValidoImpl implements ConstraintValidator<TipoEnumValido, String> {
     @Override
     public boolean isValid(String tipoEnumStr, ConstraintValidatorContext context) {
         try {
-            TipoEnum.valueOf(tipoEnumStr.trim());
-            return true;
+            if (Objects.nonNull(tipoEnumStr)) {
+                TipoEnum.valueOf(tipoEnumStr.trim());
+                return true;
+            }
+            return false;
         } catch (IllegalArgumentException e) {
             return false;
         }

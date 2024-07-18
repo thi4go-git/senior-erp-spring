@@ -6,7 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,6 +16,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 public class ProdutoServicoNewDTO {
 
+    @NotBlank(message = "{campo.tipo.obrigatorio}")
     @TipoEnumValido
     private String tipo;
 

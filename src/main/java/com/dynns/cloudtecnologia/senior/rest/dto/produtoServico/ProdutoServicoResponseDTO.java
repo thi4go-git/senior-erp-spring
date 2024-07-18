@@ -20,9 +20,9 @@ public class ProdutoServicoResponseDTO {
     private BigDecimal preco;
     private boolean ativo;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataCriacao;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDateTime dataAtualizacao;
 }
