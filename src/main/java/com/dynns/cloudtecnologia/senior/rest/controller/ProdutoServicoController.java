@@ -4,6 +4,7 @@ import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoNewDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoUpdateDTO;
 import com.dynns.cloudtecnologia.senior.rest.mapper.ProdutoServicoMapper;
 import com.dynns.cloudtecnologia.senior.service.impl.ProdutoServicoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 
 @RestController
@@ -42,4 +44,12 @@ public class ProdutoServicoController {
         return ResponseEntity.ok().body(produtoServicoMapper.pageProdutoServicoToPageProdutoServicoResponseDTO(pageProdutoServico));
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<ProdutoServicoResponseDTO> update(
+            @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id,
+            @RequestBody @Valid ProdutoServicoUpdateDTO dtoUpdate
+    ) {
+        ProdutoServico ProdutoServicoUpdate = produtoServicoService.update(id, dtoUpdate);
+        return ResponseEntity.ok().body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(ProdutoServicoUpdate));
+    }
 }

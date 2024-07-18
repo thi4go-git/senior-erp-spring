@@ -10,7 +10,7 @@ public enum TipoEnum {
 
     public static TipoEnum fromString(String value) {
         if (value == null) {
-            throw new GeralException(MSG_INVALIDO + value + MSG_INVALID1);
+            throw new GeralException(MSG_INVALIDO + MSG_INVALID1);
         }
         try {
             return TipoEnum.valueOf(value.toUpperCase());

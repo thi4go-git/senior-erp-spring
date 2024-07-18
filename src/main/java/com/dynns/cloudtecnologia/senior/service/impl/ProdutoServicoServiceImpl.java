@@ -7,17 +7,20 @@ import com.dynns.cloudtecnologia.senior.model.enums.TipoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.ProdutoServicoRepository;
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoUpdateDTO;
 import com.dynns.cloudtecnologia.senior.rest.mapper.ProdutoServicoMapper;
 import com.dynns.cloudtecnologia.senior.service.ProdutoServicoService;
-import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.UUID;
@@ -27,9 +30,10 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
 
     @Autowired
     private ProdutoServicoRepository produtoServicoRepository;
-
     @Autowired
     private ProdutoServicoMapper produtoServicoMapper;
+
+    private static final String UUID_INVALIDO = "Id UUID inválido: ";
 
 
     @Transactional
@@ -73,7 +77,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
             try {
                 idSanitizado = UUID.fromString(filter.getId());
             } catch (IllegalArgumentException e) {
-                throw new GeralException("id tipo UUID inválido: " + filter.getId());
+                throw new GeralException(UUID_INVALIDO + filter.getId());
             }
         }
 
@@ -87,5 +91,25 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
                 Sort.Direction.ASC, "dataCriacao");
 
         return produtoServicoRepository.findAll(example, pageRequest);
+    }
+
+    @Override
+    public ProdutoServico update(String id, ProdutoServicoUpdateDTO dtoUpdate) {
+
+        UUID idSanitizado;
+        try {
+            idSanitizado = UUID.fromString(id);
+        } catch (IllegalArgumentException e) {
+            throw new GeralException(UUID_INVALIDO + id);
+        }
+
+        return produtoServicoRepository.findById(idSanitizado).map(prodServ -> {
+            prodServ.setTipo(TipoEnum.fromString(dtoUpdate.getTipo().trim()));
+            prodServ.setDescricao(dtoUpdate.getDescricao().trim());
+            prodServ.setPreco(BigDecimal.valueOf(dtoUpdate.getPreco()));
+            prodServ.setAtivo(AtivoEnum.fromString(dtoUpdate.getAtivo().trim()));
+            prodServ.setDataAtualizacao(LocalDateTime.now());
+            return produtoServicoRepository.save(prodServ);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + id));
     }
 }

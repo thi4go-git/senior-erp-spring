@@ -34,7 +34,7 @@ public class ProdutoServico {
     @Column(nullable = false)
     private TipoEnum tipo;
 
-    @Column(nullable = false, length = 150, unique = true, updatable = false)
+    @Column(nullable = false, length = 150)
     private String descricao;
 
     @Digits(integer = 10, fraction = 2)
