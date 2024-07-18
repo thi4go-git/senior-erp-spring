@@ -21,7 +21,7 @@ public class ProdutoServicoNewDTO {
     private String tipo;
 
     @DescricaoProdutoServicoUnica
-    @NotBlank(message = "{campo.nomeArquivo.obrigatorio}")
+    @NotBlank(message = "{campo.descricao.obrigatorio}")
     private String descricao;
 
     @NotNull(message = "{campo.preco.obrigatorio}")

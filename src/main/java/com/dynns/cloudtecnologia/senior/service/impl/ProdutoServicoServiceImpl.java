@@ -27,8 +27,10 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
         try {
             tipo = TipoEnum.valueOf(produtoServicoDto.getTipo().trim());
         } catch (IllegalArgumentException e) {
-            throw new GeralException("Erro ao definir TipoEnum: " + produtoServicoDto.getTipo());
+            throw new GeralException("Erro ao converter String " + produtoServicoDto.getTipo().trim()
+                    + " para TipoEnum!");
         }
+
         ProdutoServico produtoServico = ProdutoServico.builder()
                 .tipo(tipo)
                 .descricao(produtoServicoDto.getDescricao())
