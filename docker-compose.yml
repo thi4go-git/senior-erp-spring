@@ -1,7 +1,22 @@
 version: "3"
 services:
+  banco-senior-erp:
+    container_name: banco-senior-erp
+    image: postgres:15
+    environment:
+      - POSTGRES_USER=banco-senior-erp
+      - POSTGRES_PASSWORD=banco-senior-erp
+    restart: always
+    ports:
+      - "5430:5432"
+    volumes:
+      - postgresql:/var/lib/postgresql
+      - postgresql_data:/var/lib/postgresql/data
+    networks:
+      - senior-erp-spring-network
+
   alvara-backend:
-    container_name: senior-erp-spring
+    container_name: senior-erp-spring-backend
     image: senior-erp-spring:latest
     build:
       context: .
@@ -12,3 +27,22 @@ services:
     ports:
       - 8095:8080
     restart: always
+    depends_on:
+      - banco-senior-erp
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://banco-senior-erp:5432/postgres
+      - SPRING_DATASOURCE_USERNAME=banco-senior-erp
+      - SPRING_DATASOURCE_PASSWORD=banco-senior-erp
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.PostgreSQLDialect
+      - SPRING_HIBERNATE_FORMAT_SQL=true
+      - SPRING_HIBERNATE_SHOW_SQL=false
+      - SPRING_HIBERNATE_DDL_AUTO=update
+    networks:
+      - senior-erp-spring-network
+
+networks:
+  senior-erp-spring-network:
+
+volumes:
+  postgresql:
+  postgresql_data:
