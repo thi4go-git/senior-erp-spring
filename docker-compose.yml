@@ -1,0 +1,14 @@
+version: "3"
+services:
+  alvara-backend:
+    container_name: senior-erp-spring
+    image: senior-erp-spring:latest
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - JAR_FILE=target/senior-erp-spring-2024.07.jar
+        - CONTEXT=senior-erp-spring
+    ports:
+      - 8090:8080
+    restart: always
