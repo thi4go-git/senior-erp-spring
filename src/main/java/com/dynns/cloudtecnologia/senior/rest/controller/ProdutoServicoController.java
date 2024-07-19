@@ -18,7 +18,7 @@ import javax.validation.constraints.NotBlank;
 
 
 @RestController
-@RequestMapping("api/produto-servico")
+@RequestMapping("api/produtos-servicos")
 public class ProdutoServicoController {
 
     @Autowired

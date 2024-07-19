@@ -56,4 +56,14 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
             itemPedidoRepository.save(itemSave);
         }
     }
+
+    @Override
+    public List<ItemPedido> findByPedido(Pedido pedido) {
+        return itemPedidoRepository.findByPedido(pedido);
+    }
+
+    @Override
+    public BigDecimal getSomaValorBrutoItensProdutos(UUID idPedido) {
+        return itemPedidoRepository.getSomaValorBrutoItensProdutos(idPedido);
+    }
 }
