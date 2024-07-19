@@ -21,4 +21,6 @@ public interface ProdutoServicoService {
     Optional<ProdutoServico> findById(UUID id);
 
     List<ProdutoServico> findAll();
+
+    ProdutoServico ativarDesativar(String id);
 }

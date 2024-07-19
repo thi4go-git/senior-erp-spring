@@ -52,4 +52,12 @@ public class ProdutoServicoController {
         ProdutoServico produtoServicoUpdate = produtoServicoService.update(id, dtoUpdate);
         return ResponseEntity.ok().body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(produtoServicoUpdate));
     }
+
+    @PatchMapping("/{id}/ativar-desativar")
+    public ResponseEntity<ProdutoServicoResponseDTO> ativarDesativar(
+            @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id
+    ) {
+        ProdutoServico produtoServico = produtoServicoService.ativarDesativar(id);
+        return ResponseEntity.ok().body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(produtoServico));
+    }
 }

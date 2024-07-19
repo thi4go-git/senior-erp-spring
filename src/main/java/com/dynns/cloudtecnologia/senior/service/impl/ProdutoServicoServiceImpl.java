@@ -109,4 +109,18 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     public List<ProdutoServico> findAll() {
         return produtoServicoRepository.findAll();
     }
+
+    @Override
+    public ProdutoServico ativarDesativar(String id) {
+        UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(id);
+        return produtoServicoRepository.findById(idSanitizado).map(prodServ -> {
+            if (prodServ.getAtivo().equals(AtivoEnum.S)) {
+                prodServ.setAtivo(AtivoEnum.N);
+            }else{
+                prodServ.setAtivo(AtivoEnum.S);
+            }
+            prodServ.setDataAtualizacao(LocalDateTime.now());
+            return produtoServicoRepository.save(prodServ);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + id));
+    }
 }
