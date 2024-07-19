@@ -8,7 +8,7 @@ import java.math.RoundingMode;
 import java.util.UUID;
 
 @Component
-public abstract class SeniorErpUtil {
+public final class SeniorErpUtil {
 
     private SeniorErpUtil() {
     }
