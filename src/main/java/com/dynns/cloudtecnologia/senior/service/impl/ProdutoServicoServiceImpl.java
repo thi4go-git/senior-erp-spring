@@ -56,11 +56,6 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     @Override
     public Page<ProdutoServico> show(int page, int size, ProdutoServicoFilterDTO filter) {
 
-        ExampleMatcher matcher = ExampleMatcher
-                .matching()
-                .withIgnoreCase()
-                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
-
         TipoProdutoServicoEnum tipo = null;
         if (Objects.nonNull(filter.getTipo())) {
             tipo = TipoProdutoServicoEnum.fromString(filter.getTipo().trim());
@@ -82,6 +77,11 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
         filtroProdutoServico.setId(idSanitizado);
         filtroProdutoServico.setTipo(tipo);
         filtroProdutoServico.setAtivo(ativo);
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
 
         Example<ProdutoServico> example = Example.of(filtroProdutoServico, matcher);
         PageRequest pageRequest = PageRequest.of(page, size,

@@ -1,6 +1,7 @@
 package com.dynns.cloudtecnologia.senior.model.entity;
 
 import com.dynns.cloudtecnologia.senior.model.enums.SituacaoPedidoEnum;
+import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -63,6 +64,8 @@ public class Pedido {
 
     @PrePersist
     protected void onCreate() {
+        percentualDesconto = SeniorErpUtil.ajustarDuasCasasDecimais(new BigDecimal(0));
+        totalDescontos = SeniorErpUtil.ajustarDuasCasasDecimais(new BigDecimal(0));
         dataCriacao = LocalDateTime.now();
         dataAtualizacao = LocalDateTime.now();
     }

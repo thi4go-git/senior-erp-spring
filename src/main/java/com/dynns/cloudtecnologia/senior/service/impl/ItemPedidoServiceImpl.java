@@ -1,8 +1,10 @@
 package com.dynns.cloudtecnologia.senior.service.impl;
 
+import com.dynns.cloudtecnologia.senior.exception.GeralException;
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
+import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.ItemPedidoRepository;
 import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.service.ItemPedidoService;
@@ -35,6 +37,10 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
                             .findFirst()
                             .orElseThrow(() -> new RuntimeException("Produto com ID UUID: " + item.getIdProdutoServico().trim() + " não encontrado! "));
 
+            if (produtoServico.getAtivo().equals(AtivoEnum.N)) {
+                throw new GeralException("Não foi possível adicionar o Produto/Serviço '" + produtoServico.getDescricao() +
+                        "' ao pedido. Causa: Produto/Serviço inativo.");
+            }
 
             BigDecimal precoProduto = produtoServico.getPreco();
             BigDecimal quantidade = SeniorErpUtil.intToBigDecimal(item.getQtde());

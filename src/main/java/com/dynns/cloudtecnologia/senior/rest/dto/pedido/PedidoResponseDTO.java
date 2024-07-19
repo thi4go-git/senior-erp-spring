@@ -25,7 +25,6 @@ import java.util.UUID;
 @Builder
 public class PedidoResponseDTO {
     private UUID id;
-    private List<ItemPedido> itens;
     private SituacaoPedidoEnum situacao;
     private String descricao;
     private int percentualDesconto;

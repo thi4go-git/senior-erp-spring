@@ -7,17 +7,19 @@ import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.PedidoRepository;
 import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.SomaTotalBrutoDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.service.PedidoService;
 import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.math.MathContext;
+import java.util.Objects;
 import java.util.UUID;
 
 @Service
@@ -35,23 +37,53 @@ public class PedidoServiceImpl implements PedidoService {
     public Pedido save(PedidoNewDTO pedidoDto) {
         SomaTotalBrutoDTO somaTotais = retornarTotalBrutoItens(pedidoDto);
 
-        BigDecimal percentualDescontoDecimal = pedidoDto.getPercentualDesconto().divide(BigDecimal.valueOf(100), MathContext.DECIMAL128);
-        BigDecimal totalDescontosProdutos = somaTotais.getTotalBrutoProdutos().multiply(percentualDescontoDecimal);
-        BigDecimal totalLiquido = somaTotais.getTotalBrutoGeral().subtract(totalDescontosProdutos);
+//        BigDecimal percentualDescontoDecimal = pedidoDto.getPercentualDesconto().divide(BigDecimal.valueOf(100), MathContext.DECIMAL128);
+//        BigDecimal totalDescontosProdutos = somaTotais.getTotalBrutoProdutos().multiply(percentualDescontoDecimal);
+//        BigDecimal totalLiquido = somaTotais.getTotalBrutoGeral().subtract(totalDescontosProdutos);
 
         Pedido pedidoSalvo = Pedido.builder()
                 .situacao(SituacaoPedidoEnum.ABERTO)
                 .descricao(pedidoDto.getDescricao())
-                .percentualDesconto(SeniorErpUtil.ajustarDuasCasasDecimais(pedidoDto.getPercentualDesconto()))
                 .totalBruto(SeniorErpUtil.ajustarDuasCasasDecimais(somaTotais.getTotalBrutoGeral()))
-                .totalDescontos(SeniorErpUtil.ajustarDuasCasasDecimais(totalDescontosProdutos))
-                .totalLiquido(SeniorErpUtil.ajustarDuasCasasDecimais(totalLiquido))
+                .totalLiquido(SeniorErpUtil.ajustarDuasCasasDecimais(somaTotais.getTotalBrutoGeral()))
                 .build();
 
         pedidoRepository.save(pedidoSalvo);
         itemPedidoService.save(pedidoSalvo, pedidoDto.getItensPedido());
 
         return pedidoSalvo;
+    }
+
+    @Override
+    public Page<Pedido> show(int page, int size, PedidoFilterDTO filter) {
+        UUID idSanitizado;
+        if (Objects.isNull(filter.getId())) {
+            idSanitizado = null;
+        } else {
+            idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(filter.getId().trim());
+        }
+
+        SituacaoPedidoEnum situacao = null;
+        if (Objects.nonNull(filter.getSituacao())) {
+            situacao = SituacaoPedidoEnum.fromString(filter.getSituacao().trim());
+        }
+
+        Pedido pedidoFilter = Pedido.builder()
+                .id(idSanitizado)
+                .situacao(situacao)
+                .descricao(filter.getDescricao())
+                .build();
+
+        ExampleMatcher matcher = ExampleMatcher
+                .matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING);
+
+        Example<Pedido> example = Example.of(pedidoFilter, matcher);
+        PageRequest pageRequest = PageRequest.of(page, size,
+                Sort.Direction.ASC, "dataCriacao");
+
+        return pedidoRepository.findAll(example, pageRequest);
     }
 
 
