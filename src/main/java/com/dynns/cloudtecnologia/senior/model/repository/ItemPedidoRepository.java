@@ -2,6 +2,7 @@ package com.dynns.cloudtecnologia.senior.model.repository;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
+import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -14,6 +15,9 @@ import java.util.UUID;
 @Repository
 public interface ItemPedidoRepository extends JpaRepository<ItemPedido, UUID> {
     List<ItemPedido> findByPedido(Pedido pedido);
+
+    List<ItemPedido> findByProdutoServico(ProdutoServico prodServ);
+
 
     @Query(value =
             "SELECT " +

@@ -1,5 +1,6 @@
 package com.dynns.cloudtecnologia.senior.service.impl;
 
+import com.dynns.cloudtecnologia.senior.exception.GeralException;
 import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
@@ -131,14 +132,13 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
 
     @Override
     public void delete(String id) {
-        UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(id);
-        produtoServicoRepository.findById(idSanitizado).map(documento -> {
-            //
+         ProdutoServico prodServ = produtoServicoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(id))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PROD_SERV_NOTFOUND + id));
 
-            itemPedidoService.getSomaValorBrutoItensProdutos(idSanitizado);
+        if (!itemPedidoService.findByProdutoServico(prodServ).isEmpty()) {
+            throw new GeralException("Não foi possível deletar o Produto: '" + prodServ.getDescricao() + "'. Existem itens com esse produto!");
+        }
 
-            produtoServicoRepository.delete(documento);
-            return Void.TYPE;
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PROD_SERV_NOTFOUND + id));
+        produtoServicoRepository.delete(prodServ);
     }
 }

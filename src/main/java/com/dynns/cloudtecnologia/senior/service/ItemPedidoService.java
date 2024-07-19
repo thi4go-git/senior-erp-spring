@@ -2,6 +2,7 @@ package com.dynns.cloudtecnologia.senior.service;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
+import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 
 import java.math.BigDecimal;
@@ -14,4 +15,6 @@ public interface ItemPedidoService {
     List<ItemPedido> findByPedido(Pedido pedido);
 
     BigDecimal getSomaValorBrutoItensProdutos(UUID idPedido);
+
+    List<ItemPedido> findByProdutoServico(ProdutoServico prodServ);
 }
