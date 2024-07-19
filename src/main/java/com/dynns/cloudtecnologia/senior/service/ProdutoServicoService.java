@@ -23,4 +23,6 @@ public interface ProdutoServicoService {
     List<ProdutoServico> findAll();
 
     ProdutoServico ativarDesativar(String id);
+
+    void delete (String id);
 }

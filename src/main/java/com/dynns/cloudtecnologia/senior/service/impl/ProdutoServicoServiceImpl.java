@@ -17,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
-
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -32,6 +31,10 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     private ProdutoServicoRepository produtoServicoRepository;
     @Autowired
     private ProdutoServicoMapper produtoServicoMapper;
+    @Autowired
+    private ItemPedidoServiceImpl itemPedidoService;
+
+    private static final String PROD_SERV_NOTFOUND = "ProdutoServico com Id UUID não localizado: ";
 
 
     @Transactional
@@ -88,6 +91,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     }
 
     @Override
+    @Transactional
     public ProdutoServico update(String id, ProdutoServicoUpdateDTO dtoUpdate) {
         UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(id);
         return produtoServicoRepository.findById(idSanitizado).map(prodServ -> {
@@ -97,7 +101,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
             prodServ.setAtivo(AtivoEnum.fromString(dtoUpdate.getAtivo().trim()));
             prodServ.setDataAtualizacao(LocalDateTime.now());
             return produtoServicoRepository.save(prodServ);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + id));
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PROD_SERV_NOTFOUND + id));
     }
 
     @Override
@@ -111,6 +115,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     }
 
     @Override
+    @Transactional
     public ProdutoServico ativarDesativar(String id) {
         UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(id);
         return produtoServicoRepository.findById(idSanitizado).map(prodServ -> {
@@ -121,6 +126,19 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
             }
             prodServ.setDataAtualizacao(LocalDateTime.now());
             return produtoServicoRepository.save(prodServ);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + id));
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PROD_SERV_NOTFOUND + id));
+    }
+
+    @Override
+    public void delete(String id) {
+        UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(id);
+        produtoServicoRepository.findById(idSanitizado).map(documento -> {
+            //
+
+            itemPedidoService.getSomaValorBrutoItensProdutos(idSanitizado);
+
+            produtoServicoRepository.delete(documento);
+            return Void.TYPE;
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PROD_SERV_NOTFOUND + id));
     }
 }
