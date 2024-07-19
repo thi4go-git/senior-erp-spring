@@ -1,6 +1,5 @@
-package com.dynns.cloudtecnologia.senior.rest.dto.itemPedido;
+package com.dynns.cloudtecnologia.senior.rest.dto.item_pedido;
 
-import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import lombok.AllArgsConstructor;
 import lombok.Data;

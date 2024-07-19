@@ -2,8 +2,7 @@ package com.dynns.cloudtecnologia.senior.service;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
-import org.springframework.data.repository.query.Param;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 
 import java.math.BigDecimal;
 import java.util.List;

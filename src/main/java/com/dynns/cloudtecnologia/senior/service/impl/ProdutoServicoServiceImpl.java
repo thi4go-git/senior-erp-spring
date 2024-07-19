@@ -4,9 +4,9 @@ import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.ProdutoServicoRepository;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoFilterDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoNewDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoUpdateDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoFilterDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoUpdateDTO;
 import com.dynns.cloudtecnologia.senior.rest.mapper.ProdutoServicoMapper;
 import com.dynns.cloudtecnologia.senior.service.ProdutoServicoService;
 import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
@@ -19,7 +19,6 @@ import org.springframework.data.domain.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
@@ -33,8 +32,6 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
     private ProdutoServicoRepository produtoServicoRepository;
     @Autowired
     private ProdutoServicoMapper produtoServicoMapper;
-
-    private static final String UUID_INVALIDO = "Id UUID inválido: ";
 
 
     @Transactional

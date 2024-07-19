@@ -2,7 +2,7 @@ package com.dynns.cloudtecnologia.senior.rest.controller;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoResponseDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.DescontoDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;

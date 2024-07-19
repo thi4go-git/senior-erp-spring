@@ -7,7 +7,6 @@ import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;
 import org.springframework.data.domain.Page;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface PedidoService {

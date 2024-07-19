@@ -1,7 +1,7 @@
 package com.dynns.cloudtecnologia.senior.rest.mapper;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

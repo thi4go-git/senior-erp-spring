@@ -1,10 +1,10 @@
 package com.dynns.cloudtecnologia.senior.rest.controller;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoFilterDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoNewDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoResponseDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoUpdateDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoUpdateDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.mapper.ProdutoServicoMapper;
 import com.dynns.cloudtecnologia.senior.service.impl.ProdutoServicoServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ public class ProdutoServicoController {
     public ResponseEntity<ProdutoServicoResponseDTO> save(
             @RequestBody @Valid ProdutoServicoNewDTO dto
     ) {
-        ProdutoServico ProdutoServicoSalvo = produtoServicoService.save(dto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(ProdutoServicoSalvo));
+        ProdutoServico produtoServicoSalvo = produtoServicoService.save(dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(produtoServicoSalvo));
     }
 
     @PostMapping("/show")
@@ -49,7 +49,7 @@ public class ProdutoServicoController {
             @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id,
             @RequestBody @Valid ProdutoServicoUpdateDTO dtoUpdate
     ) {
-        ProdutoServico ProdutoServicoUpdate = produtoServicoService.update(id, dtoUpdate);
-        return ResponseEntity.ok().body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(ProdutoServicoUpdate));
+        ProdutoServico produtoServicoUpdate = produtoServicoService.update(id, dtoUpdate);
+        return ResponseEntity.ok().body(produtoServicoMapper.produtoServicoToProdutoServicoResponseDTO(produtoServicoUpdate));
     }
 }

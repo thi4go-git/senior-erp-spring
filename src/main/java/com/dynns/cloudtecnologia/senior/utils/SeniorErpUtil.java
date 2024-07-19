@@ -9,6 +9,10 @@ import java.util.UUID;
 
 @Component
 public abstract class SeniorErpUtil {
+
+    private SeniorErpUtil() {
+    }
+
     public static UUID retornarUUIDSanitizado(String id) {
         try {
             return UUID.fromString(id);

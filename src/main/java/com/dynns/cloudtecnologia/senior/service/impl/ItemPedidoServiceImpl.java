@@ -6,7 +6,7 @@ import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.ItemPedidoRepository;
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.service.ItemPedidoService;
 import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
 import org.springframework.beans.factory.annotation.Autowired;

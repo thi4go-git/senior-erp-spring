@@ -1,4 +1,4 @@
-package com.dynns.cloudtecnologia.senior.rest.dto.produtoServico;
+package com.dynns.cloudtecnologia.senior.rest.dto.produtoservico;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

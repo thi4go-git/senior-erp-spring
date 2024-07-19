@@ -1,6 +1,6 @@
 package com.dynns.cloudtecnologia.senior.rest.dto.pedido;
 
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

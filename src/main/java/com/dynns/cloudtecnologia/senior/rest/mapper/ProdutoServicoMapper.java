@@ -1,13 +1,12 @@
 package com.dynns.cloudtecnologia.senior.rest.mapper;
 
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoFilterDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.produtoServico.ProdutoServicoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoFilterDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoResponseDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

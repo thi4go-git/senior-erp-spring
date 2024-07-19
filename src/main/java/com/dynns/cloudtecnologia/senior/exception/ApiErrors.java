@@ -2,7 +2,6 @@ package com.dynns.cloudtecnologia.senior.exception;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-
 import java.util.Collections;
 import java.util.List;
 

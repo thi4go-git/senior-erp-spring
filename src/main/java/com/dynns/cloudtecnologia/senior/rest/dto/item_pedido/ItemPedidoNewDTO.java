@@ -1,4 +1,4 @@
-package com.dynns.cloudtecnologia.senior.rest.dto.itemPedido;
+package com.dynns.cloudtecnologia.senior.rest.dto.item_pedido;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

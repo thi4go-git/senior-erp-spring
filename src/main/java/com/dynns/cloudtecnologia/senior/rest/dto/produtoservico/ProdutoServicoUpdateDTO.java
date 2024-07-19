@@ -1,6 +1,5 @@
-package com.dynns.cloudtecnologia.senior.rest.dto.produtoServico;
+package com.dynns.cloudtecnologia.senior.rest.dto.produtoservico;
 
-import com.dynns.cloudtecnologia.senior.anottation.DescricaoProdutoServicoUnica;
 import com.dynns.cloudtecnologia.senior.anottation.TipoEnumValido;
 import lombok.*;
 

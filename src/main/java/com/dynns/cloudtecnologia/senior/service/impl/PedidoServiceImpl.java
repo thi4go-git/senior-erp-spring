@@ -5,7 +5,7 @@ import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.SituacaoPedidoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.PedidoRepository;
-import com.dynns.cloudtecnologia.senior.rest.dto.itemPedido.ItemPedidoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.DescontoDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;
@@ -33,6 +33,7 @@ public class PedidoServiceImpl implements PedidoService {
     private ProdutoServicoServiceImpl produtoServicoService;
     @Autowired
     private ItemPedidoServiceImpl itemPedidoService;
+    private static final String PEDIDO_NOTFOUND = "Pedido com Id UUID não localizado: ";
 
     @Override
     @Transactional
@@ -91,7 +92,7 @@ public class PedidoServiceImpl implements PedidoService {
             }
             pedido.setSituacao(SituacaoPedidoEnum.FECHADO);
             return pedidoRepository.save(pedido);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido com Id UUID não localizado: " + id));
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + id));
     }
 
     private BigDecimal retornarTotalBrutoItens(PedidoNewDTO dto) {
@@ -113,13 +114,13 @@ public class PedidoServiceImpl implements PedidoService {
     @Override
     public Pedido showById(String id) {
         return pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(id))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido com Id UUID não localizado: " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + id));
     }
 
     @Override
     public List<ItemPedido> getItensPedido(String idPedido) {
         Pedido pedido = pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(idPedido))
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido com Id UUID não localizado: " + idPedido));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + idPedido));
         return itemPedidoService.findByPedido(pedido);
     }
 
@@ -143,6 +144,6 @@ public class PedidoServiceImpl implements PedidoService {
             pedido.setTotalLiquido(SeniorErpUtil.ajustarDuasCasasDecimais(totalLiquido));
 
             return pedidoRepository.save(pedido);
-        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Pedido com Id UUID não localizado: " + idPedido));
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + idPedido));
     }
 }
