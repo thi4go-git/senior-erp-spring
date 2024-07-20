@@ -17,4 +17,6 @@ public interface ItemPedidoService {
     BigDecimal getSomaValorBrutoItensProdutos(UUID idPedido);
 
     List<ItemPedido> findByProdutoServico(ProdutoServico prodServ);
+
+    void deleteByPedido(Pedido pedido);
 }

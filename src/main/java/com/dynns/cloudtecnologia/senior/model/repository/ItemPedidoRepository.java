@@ -16,6 +16,8 @@ import java.util.UUID;
 public interface ItemPedidoRepository extends JpaRepository<ItemPedido, UUID> {
     List<ItemPedido> findByPedido(Pedido pedido);
 
+    void deleteByPedido(Pedido pedido);
+
     List<ItemPedido> findByProdutoServico(ProdutoServico prodServ);
 
 

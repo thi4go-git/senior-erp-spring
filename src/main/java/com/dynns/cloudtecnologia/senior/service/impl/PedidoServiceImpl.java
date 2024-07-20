@@ -9,6 +9,7 @@ import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.DescontoDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoUpdateDTO;
 import com.dynns.cloudtecnologia.senior.service.PedidoService;
 import com.dynns.cloudtecnologia.senior.utils.SeniorErpUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import org.springframework.web.server.ResponseStatusException;
 import javax.transaction.Transactional;
 import java.math.BigDecimal;
 import java.math.MathContext;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
@@ -85,6 +87,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional
     public Pedido fecharPedido(String id) {
         return pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(id)).map(pedido -> {
             if (pedido.getSituacao().equals(SituacaoPedidoEnum.FECHADO)) {
@@ -95,21 +98,6 @@ public class PedidoServiceImpl implements PedidoService {
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + id));
     }
 
-    private BigDecimal retornarTotalBrutoItens(PedidoNewDTO dto) {
-        BigDecimal somaTotalBrutoGeral = BigDecimal.ZERO;
-        for (ItemPedidoNewDTO item : dto.getItensPedido()) {
-            UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(item.getIdProdutoServico().trim());
-            ProdutoServico produtoServico = produtoServicoService.findById(idSanitizado)
-                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + idSanitizado));
-
-            BigDecimal precoProduto = produtoServico.getPreco();
-            BigDecimal quantidade = BigDecimal.valueOf(item.getQtde());
-            BigDecimal totalBrutoItem = precoProduto.multiply(quantidade);
-
-            somaTotalBrutoGeral = somaTotalBrutoGeral.add(totalBrutoItem);
-        }
-        return somaTotalBrutoGeral;
-    }
 
     @Override
     public Pedido showById(String id) {
@@ -125,6 +113,7 @@ public class PedidoServiceImpl implements PedidoService {
     }
 
     @Override
+    @Transactional
     public Pedido aplicarDesconto(String idPedido, DescontoDTO descontoDto) {
         return pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(idPedido)).map(pedido -> {
             if (pedido.getSituacao().equals(SituacaoPedidoEnum.FECHADO)) {
@@ -145,5 +134,43 @@ public class PedidoServiceImpl implements PedidoService {
 
             return pedidoRepository.save(pedido);
         }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + idPedido));
+    }
+
+    @Override
+    @Transactional
+    public Pedido update(String id, PedidoUpdateDTO dto) {
+        return pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(id)).map(pedido -> {
+            pedido.setSituacao(SituacaoPedidoEnum.fromString(dto.getSituacao().trim()));
+            pedido.setDescricao(dto.getDescricao());
+            pedido.setDataAtualizacao(LocalDateTime.now());
+
+            return pedidoRepository.save(pedido);
+        }).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + id));
+    }
+
+    @Override
+    @Transactional
+    public void delete(String id) {
+        Pedido pedido = pedidoRepository.findById(SeniorErpUtil.retornarUUIDSanitizado(id))
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, PEDIDO_NOTFOUND + id));
+
+        itemPedidoService.deleteByPedido(pedido);
+        pedidoRepository.delete(pedido);
+    }
+
+    private BigDecimal retornarTotalBrutoItens(PedidoNewDTO dto) {
+        BigDecimal somaTotalBrutoGeral = BigDecimal.ZERO;
+        for (ItemPedidoNewDTO item : dto.getItensPedido()) {
+            UUID idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(item.getIdProdutoServico().trim());
+            ProdutoServico produtoServico = produtoServicoService.findById(idSanitizado)
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "ProdutoServico com Id UUID não localizado: " + idSanitizado));
+
+            BigDecimal precoProduto = produtoServico.getPreco();
+            BigDecimal quantidade = BigDecimal.valueOf(item.getQtde());
+            BigDecimal totalBrutoItem = precoProduto.multiply(quantidade);
+
+            somaTotalBrutoGeral = somaTotalBrutoGeral.add(totalBrutoItem);
+        }
+        return somaTotalBrutoGeral;
     }
 }

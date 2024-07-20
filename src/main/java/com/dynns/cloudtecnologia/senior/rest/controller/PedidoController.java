@@ -3,10 +3,7 @@ package com.dynns.cloudtecnologia.senior.rest.controller;
 import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoResponseDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.pedido.DescontoDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoFilterDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoNewDTO;
-import com.dynns.cloudtecnologia.senior.rest.dto.pedido.PedidoResponseDTO;
+import com.dynns.cloudtecnologia.senior.rest.dto.pedido.*;
 import com.dynns.cloudtecnologia.senior.rest.mapper.ItemPedidoMapper;
 import com.dynns.cloudtecnologia.senior.rest.mapper.PedidoMapper;
 import com.dynns.cloudtecnologia.senior.service.impl.PedidoServiceImpl;
@@ -15,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
@@ -28,6 +26,7 @@ public class PedidoController {
     private PedidoMapper pedidoMapper;
     @Autowired
     private ItemPedidoMapper itemPedidoMapper;
+    private static final String ID_OBRIGATORIO = "O Campo id é Obrigatório!";
 
     @PostMapping
     public ResponseEntity<PedidoResponseDTO> save(
@@ -49,7 +48,7 @@ public class PedidoController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<PedidoResponseDTO> fecharPedido(
-            @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id
     ) {
         Pedido pedidoFechado = pedidoService.fecharPedido(id);
         return ResponseEntity.ok().body(pedidoMapper.pedidoToPedidoResponseDTO(pedidoFechado));
@@ -57,26 +56,43 @@ public class PedidoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<PedidoResponseDTO> showById(
-            @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id
     ) {
         Pedido pedido = pedidoService.showById(id);
         return ResponseEntity.ok().body(pedidoMapper.pedidoToPedidoResponseDTO(pedido));
     }
 
-    @GetMapping("/{idPedido}/itens")
+    @GetMapping("/{id}/itens")
     public ResponseEntity<List<ItemPedidoResponseDTO>> showItens(
-            @PathVariable("idPedido") @NotBlank(message = "O Campo idPedido é Obrigatório!") final String idPedido
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id
     ) {
-        List<ItemPedido> itens = pedidoService.getItensPedido(idPedido);
+        List<ItemPedido> itens = pedidoService.getItensPedido(id);
         return ResponseEntity.ok().body(itemPedidoMapper.listItemPedidoToListItemPedidoResponseDTO(itens));
     }
 
-    @PostMapping("/{idPedido}/desconto")
+    @PostMapping("/{id}/desconto")
     public ResponseEntity<PedidoResponseDTO> aplicarDesconto(
-            @PathVariable("idPedido") @NotBlank(message = "O Campo idPedido é Obrigatório!") final String idPedido,
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id,
             @RequestBody @Valid DescontoDTO descontoDto
     ) {
-        Pedido pedido = pedidoService.aplicarDesconto(idPedido, descontoDto);
+        Pedido pedido = pedidoService.aplicarDesconto(id, descontoDto);
         return ResponseEntity.ok().body(pedidoMapper.pedidoToPedidoResponseDTO(pedido));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PedidoResponseDTO> update(
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id,
+            @RequestBody @Valid PedidoUpdateDTO dtoUpdate
+    ) {
+        Pedido pedidoUpdate = pedidoService.update(id, dtoUpdate);
+        return ResponseEntity.ok().body(pedidoMapper.pedidoToPedidoResponseDTO(pedidoUpdate));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(
+            @PathVariable("id") @NotBlank(message = ID_OBRIGATORIO) final String id
+    ) {
+        pedidoService.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }

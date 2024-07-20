@@ -62,7 +62,7 @@ public class ProdutoServicoController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ProdutoServicoResponseDTO> delete(
+    public ResponseEntity<Void> delete(
             @PathVariable("id") @NotBlank(message = "O Campo id é Obrigatório!") final String id
     ) {
         produtoServicoService.delete(id);

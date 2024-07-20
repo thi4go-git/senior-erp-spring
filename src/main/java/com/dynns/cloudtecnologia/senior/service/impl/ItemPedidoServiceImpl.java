@@ -71,4 +71,9 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
     public List<ItemPedido> findByProdutoServico(ProdutoServico prodServ) {
         return itemPedidoRepository.findByProdutoServico(prodServ);
     }
+
+    @Override
+    public void deleteByPedido(Pedido pedido) {
+        itemPedidoRepository.deleteByPedido(pedido);
+    }
 }
