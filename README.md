@@ -1,4 +1,7 @@
 README inicial
 
 Teste imagem:
-![Alt text](images/teste.jpg)
+![Alt text](assets/teste.JPG)
+
+Exemplo 2 iamgem:
+![Exemplo de Imagem](assets/exemplo.png)
