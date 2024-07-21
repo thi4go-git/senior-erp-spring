@@ -18,4 +18,15 @@ public enum TipoProdutoServicoEnum {
             throw new GeralException(MSG_INVALIDO + value + MSG_INVALID1);
         }
     }
+
+    public static TipoProdutoServicoEnum fromInt(int value) {
+        switch (value) {
+            case 0:
+                return PRODUTO;
+            case 1:
+                return SERVICO;
+            default:
+                throw new GeralException(MSG_INVALIDO + value + MSG_INVALID1);
+        }
+    }
 }

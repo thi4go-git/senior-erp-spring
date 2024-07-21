@@ -64,7 +64,7 @@ public class ItemPedidoServiceImpl implements ItemPedidoService {
 
     @Override
     public BigDecimal getSomaValorBrutoItensProdutos(UUID idPedido) {
-        return itemPedidoRepository.getSomaValorBrutoItensProdutos(idPedido);
+        return itemPedidoRepository.getSomaValorBrutoItensProdutosQueryDSL(idPedido);
     }
 
     @Override

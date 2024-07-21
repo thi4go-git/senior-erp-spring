@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Repository
-public interface ItemPedidoRepository extends JpaRepository<ItemPedido, UUID> {
+public interface ItemPedidoRepository extends JpaRepository<ItemPedido, UUID>, ItemPedidoQueryDSLRepository {
     List<ItemPedido> findByPedido(Pedido pedido);
 
     void deleteByPedido(Pedido pedido);
