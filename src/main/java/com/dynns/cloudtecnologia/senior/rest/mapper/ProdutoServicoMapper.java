@@ -22,7 +22,7 @@ public class ProdutoServicoMapper {
         return modelMapper.map(produtoServico, ProdutoServicoResponseDTO.class);
     }
 
-    public ProdutoServico ProdutoServicoFilterDtoToProdutoServico(ProdutoServicoFilterDTO filterDTO) {
+    public ProdutoServico produtoServicoFilterDtoToProdutoServico(ProdutoServicoFilterDTO filterDTO) {
         return modelMapper.map(filterDTO, ProdutoServico.class);
     }
 

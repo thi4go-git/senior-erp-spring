@@ -74,7 +74,7 @@ public class ProdutoServicoServiceImpl implements ProdutoServicoService {
             idSanitizado = SeniorErpUtil.retornarUUIDSanitizado(filter.getId().trim());
         }
 
-        ProdutoServico filtroProdutoServico = produtoServicoMapper.ProdutoServicoFilterDtoToProdutoServico(filter);
+        ProdutoServico filtroProdutoServico = produtoServicoMapper.produtoServicoFilterDtoToProdutoServico(filter);
         filtroProdutoServico.setId(idSanitizado);
         filtroProdutoServico.setTipo(tipo);
         filtroProdutoServico.setAtivo(ativo);

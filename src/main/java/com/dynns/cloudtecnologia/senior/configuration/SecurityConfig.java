@@ -16,9 +16,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String USERNAME = "admin";
-    private static final String PASSWORD = "senior-erp";
-
     @Autowired
     private PasswordEncoder passwordEncoder;
 
@@ -26,8 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.inMemoryAuthentication()
                 .passwordEncoder(passwordEncoder)
-                .withUser(USERNAME)
-                .password(passwordEncoder.encode(PASSWORD))
+                .withUser("admin")
+                .password(passwordEncoder.encode("senior-erp"))
                 .authorities("USER");
     }
 
