@@ -221,14 +221,14 @@ class ProdutoServicoControllerTest {
         }
     }
 
-    private static Stream<Arguments> getProdutoServicoParaTeste() {
+    static Stream<Arguments> getProdutoServicoParaTeste() {
         return Stream.of(
                 Arguments.of(getProdutoServicoDadosIncorretos(), 1),
                 Arguments.of(getProdutoValido(), 2)
         );
     }
 
-    private static Stream<Arguments> getIdsProdutoServicoParaTeste() {
+    static Stream<Arguments> getIdsProdutoServicoParaTeste() {
         return Stream.of(
                 Arguments.of(idProdutoServicoSalvo, 1),
                 Arguments.of(ID_PRODSERV_INEXISTENTE, 2),

@@ -4,6 +4,7 @@ import com.dynns.cloudtecnologia.senior.model.entity.ItemPedido;
 import com.dynns.cloudtecnologia.senior.model.entity.Pedido;
 import com.dynns.cloudtecnologia.senior.model.entity.ProdutoServico;
 import com.dynns.cloudtecnologia.senior.model.enums.SituacaoPedidoEnum;
+import com.dynns.cloudtecnologia.senior.model.enums.TipoProdutoServicoEnum;
 import com.dynns.cloudtecnologia.senior.model.repository.PedidoRepository;
 import com.dynns.cloudtecnologia.senior.rest.dto.item_pedido.ItemPedidoNewDTO;
 import com.dynns.cloudtecnologia.senior.rest.dto.pedido.DescontoDTO;
@@ -125,6 +126,11 @@ public class PedidoServiceImpl implements PedidoService {
 
             BigDecimal percentualDesconto = descontoDto.getPercentualDesconto().divide(BigDecimal.valueOf(100), MathContext.DECIMAL128);
             BigDecimal valorBrutoItensProdutos = itemPedidoService.getSomaValorBrutoItensProdutos(pedido.getId());
+
+            if (valorBrutoItensProdutos == null || valorBrutoItensProdutos.compareTo(BigDecimal.ZERO) == 0) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Não foi possível aplicar desconto. Causa: não existem itens do tipo  " + TipoProdutoServicoEnum.PRODUTO);
+            }
+
             BigDecimal totalDescontos = valorBrutoItensProdutos.multiply(percentualDesconto);
             BigDecimal totalLiquido = pedido.getTotalBruto().subtract(totalDescontos);
 

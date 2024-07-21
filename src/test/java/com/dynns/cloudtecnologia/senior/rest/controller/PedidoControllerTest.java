@@ -52,10 +52,14 @@ class PedidoControllerTest {
     private static String idPedidoSalvo;
     private static final String CAMPO_ID = "id";
     private static final String CAMPO_DESCRICAO = "descricao";
-    private static final String CAMPO_PRECO = "preco";
     private static final String CAMPO_TIPO = "tipo";
+    private static final String CAMPO_SITUACAO = "situacao";
+    private static final String CAMPO_PERC_DESC = "percentualDesconto";
     private static final String NOME_PEDIDO = "Pedido TESTE";
+    private static final String NOME_TOTAL_BRUTO = "totalBruto";
+    private static final String NOME_TOTAL_LIQ = "totalLiquido";
     private static final String MSG_PEDIDO_NOTFOUND = "Pedido com Id UUID não localizado: ";
+    private static final String TOT_BRUTO = "4023.24";
 
 
     @ParameterizedTest
@@ -80,7 +84,7 @@ class PedidoControllerTest {
             assertEquals(HttpStatus.SC_CREATED, resposta.statusCode());
             assertEquals(dto.getTipo(), resposta.jsonPath().getString(CAMPO_TIPO));
             assertEquals(dto.getDescricao(), resposta.jsonPath().getString(CAMPO_DESCRICAO));
-            assertEquals(dto.getPreco().toString(), resposta.jsonPath().getString(CAMPO_PRECO));
+            assertEquals(dto.getPreco().toString(), resposta.jsonPath().getString("preco"));
             idServicoSalvo = resposta.jsonPath().getString(CAMPO_ID).trim();
         } else if (indexProdServ == 2) {
             assertEquals(HttpStatus.SC_CREATED, resposta.statusCode());
@@ -112,11 +116,11 @@ class PedidoControllerTest {
             assertTrue(responseBody.contains("A Lista itensPedido deve ser preenchida!"));
         } else if (index == 2) {
             assertEquals(HttpStatus.SC_CREATED, resposta.statusCode());
-            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString("situacao"));
+            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString(CAMPO_SITUACAO));
             assertEquals(NOME_PEDIDO, resposta.jsonPath().getString(CAMPO_DESCRICAO));
-            assertEquals("0", resposta.jsonPath().getString("percentualDesconto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalBruto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalLiquido"));
+            assertEquals("0", resposta.jsonPath().getString(CAMPO_PERC_DESC));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_BRUTO));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_LIQ));
             idPedidoSalvo = resposta.jsonPath().getString(CAMPO_ID).trim();
         }
     }
@@ -163,11 +167,11 @@ class PedidoControllerTest {
         } else if (index == 2) {
             assertEquals(HttpStatus.SC_OK, resposta.statusCode());
             assertEquals(idPedidoSalvo, resposta.jsonPath().getString(CAMPO_ID));
-            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString("situacao"));
+            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString(CAMPO_SITUACAO));
             assertEquals(NOME_PEDIDO, resposta.jsonPath().getString(CAMPO_DESCRICAO));
-            assertEquals("0", resposta.jsonPath().getString("percentualDesconto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalBruto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalLiquido"));
+            assertEquals("0", resposta.jsonPath().getString(CAMPO_PERC_DESC));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_BRUTO));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_LIQ));
         }
     }
 
@@ -215,11 +219,11 @@ class PedidoControllerTest {
         } else if (index == 2) {
             assertEquals(HttpStatus.SC_OK, resposta.statusCode());
             assertEquals(idPedidoSalvo, resposta.jsonPath().getString(CAMPO_ID));
-            assertEquals(SituacaoPedidoEnum.FECHADO.toString(), resposta.jsonPath().getString("situacao"));
+            assertEquals(SituacaoPedidoEnum.FECHADO.toString(), resposta.jsonPath().getString(CAMPO_SITUACAO));
             assertEquals(NOME_PEDIDO, resposta.jsonPath().getString(CAMPO_DESCRICAO));
-            assertEquals("0", resposta.jsonPath().getString("percentualDesconto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalBruto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalLiquido"));
+            assertEquals("0", resposta.jsonPath().getString(CAMPO_PERC_DESC));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_BRUTO));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_LIQ));
         }
     }
 
@@ -256,7 +260,7 @@ class PedidoControllerTest {
     @Order(8)
     void deveAtualizarPedido(String idPedido, int index) {
         PedidoUpdateDTO updateDto = PedidoUpdateDTO.builder()
-                .situacao("ABERTO")
+                .situacao(SituacaoPedidoEnum.ABERTO.toString())
                 .descricao(NOME_PEDIDO + " - UPDATE DESCONTO")
                 .build();
         var resposta = given()
@@ -276,11 +280,11 @@ class PedidoControllerTest {
         } else if (index == 2) {
             assertEquals(HttpStatus.SC_OK, resposta.statusCode());
             assertEquals(idPedidoSalvo, resposta.jsonPath().getString(CAMPO_ID));
-            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString("situacao"));
+            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString(CAMPO_SITUACAO));
             assertEquals(updateDto.getDescricao(), resposta.jsonPath().getString(CAMPO_DESCRICAO));
-            assertEquals("0", resposta.jsonPath().getString("percentualDesconto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalBruto"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalLiquido"));
+            assertEquals("0", resposta.jsonPath().getString(CAMPO_PERC_DESC));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_BRUTO));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_LIQ));
         }
     }
 
@@ -309,10 +313,10 @@ class PedidoControllerTest {
         } else if (index == 2) {
             assertEquals(HttpStatus.SC_OK, resposta.statusCode());
             assertEquals(idPedidoSalvo, resposta.jsonPath().getString(CAMPO_ID));
-            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString("situacao"));
-            assertEquals("4023.24", resposta.jsonPath().getString("totalBruto"));
+            assertEquals(SituacaoPedidoEnum.ABERTO.toString(), resposta.jsonPath().getString(CAMPO_SITUACAO));
+            assertEquals(TOT_BRUTO, resposta.jsonPath().getString(NOME_TOTAL_BRUTO));
             assertEquals("4.91", resposta.jsonPath().getString("totalDescontos"));
-            assertEquals("4018.33", resposta.jsonPath().getString("totalLiquido"));
+            assertEquals("4018.33", resposta.jsonPath().getString(NOME_TOTAL_LIQ));
         } else if (index == 3) {
             assertEquals(HttpStatus.SC_BAD_REQUEST, resposta.statusCode());
             assertTrue(responseBody.contains("Não foi possível aplicar desconto. Causa: Desconto já aplicado de " + percDesconto + "%"));
@@ -345,21 +349,21 @@ class PedidoControllerTest {
         }
     }
 
-    private static Stream<Arguments> getProdutoServicoParaTeste() {
+    static Stream<Arguments> getProdutoServicoParaTeste() {
         return Stream.of(
                 Arguments.of(PedidosSource.getServicoValido(), 1),
                 Arguments.of(PedidosSource.getProdutoValido(), 2)
         );
     }
 
-    private static Stream<Arguments> getPedidosParaTeste() {
+    static Stream<Arguments> getPedidosParaTeste() {
         return Stream.of(
                 Arguments.of(PedidosSource.getPedidoDadosIncorretos(), 1),
                 Arguments.of(PedidosSource.getPedidoDadosCorretdos(idServicoSalvo, idProdutoSalvo, 2, NOME_PEDIDO), 2)
         );
     }
 
-    private static Stream<Arguments> getIdsPedidosParaTeste() {
+    static Stream<Arguments> getIdsPedidosParaTeste() {
         return Stream.of(
                 Arguments.of(ID_PEDIDO_INEXISTENTE, 1),
                 Arguments.of(idPedidoSalvo, 2),
