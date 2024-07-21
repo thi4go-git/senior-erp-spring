@@ -4,8 +4,8 @@ import com.dynns.cloudtecnologia.senior.rest.dto.produtoservico.ProdutoServicoNe
 
 import java.math.BigDecimal;
 
-public abstract class ProdutoServicoSourcesTest {
-    private ProdutoServicoSourcesTest() {
+public abstract class ProdutoServicoSource {
+    private ProdutoServicoSource() {
     }
 
 

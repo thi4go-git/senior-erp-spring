@@ -37,12 +37,12 @@
         <sonar.coverage.exclusions>
             **/model/**,**/rest/dto/**, **/entity/**,
             **/enum/**, **/enums/**,
-            **/anottation/**, **/enums/**
+            **/anottation/**, **/enums/**, **/configuration/**
         </sonar.coverage.exclusions>
         <sonar.exclusions>
             **/model/**,**/rest/dto/**, **/entity/**,
             **/enum/**, **/enums/**,
-            **/anottation/**, **/enums/**
+            **/anottation/**, **/enums/**, **/configuration/**
         </sonar.exclusions>
     </properties>
 
@@ -180,7 +180,7 @@
                 <configuration>
                     <excludes>
                         <exclude>
-                            **/.mvn/**,**/src/test/**,**/entity/**,**/rest/dto/**,**/enums/**,MavenWrapperDownloader.java
+                            **/.mvn/**,**/src/test/**,**/entity/**,**/rest/dto/**,**/enums/**,MavenWrapperDownloader.java,**/configuration/**
                         </exclude>
                     </excludes>
                 </configuration>

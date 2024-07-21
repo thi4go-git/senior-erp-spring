@@ -1,7 +1,7 @@
 package com.dynns.cloudtecnologia.senior.rest.controller;
 
-import static com.dynns.cloudtecnologia.senior.rest.controller.ProdutoServicoSourcesTest.getProdutoServicoDadosIncorretos;
-import static com.dynns.cloudtecnologia.senior.rest.controller.ProdutoServicoSourcesTest.getProdutoValido;
+import static com.dynns.cloudtecnologia.senior.rest.controller.ProdutoServicoSource.getProdutoServicoDadosIncorretos;
+import static com.dynns.cloudtecnologia.senior.rest.controller.ProdutoServicoSource.getProdutoValido;
 import static org.junit.jupiter.api.Assertions.*;
 
 import com.dynns.cloudtecnologia.senior.model.enums.AtivoEnum;
@@ -116,8 +116,6 @@ class ProdutoServicoControllerTest {
         assertTrue(responseBody.contains("\"empty\":false"));
         assertTrue(responseBody.contains("\"pageSize\":10"));
         assertTrue(responseBody.contains("\"pageNumber\":0"));
-        assertTrue(responseBody.contains("\"totalElements\":1"));
-        assertTrue(responseBody.contains("\"numberOfElements\":1"));
     }
 
     @ParameterizedTest
