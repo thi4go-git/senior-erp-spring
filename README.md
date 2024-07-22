@@ -66,6 +66,21 @@
 * Endpoints Pedido:
   ![Alt text](assets/endpoint-pedido.PNG)
 
+### Informações sobre endpoins com a função de aplicar filtros:
+
+* Existem endpoints que permitem a listagem dos dados com a opção de realizar filtro, para isso, encaminharemos
+  um DTO com os campos necessários para a aplicação do filtro.
+* Para aplicar filtro apenas em 1 campo, preencha somente esse campo e deixe os demais como 'null'.
+* Exemplo de DTO para aplicar filtro apenas no atributo descrição:
+  {
+  "ativo": null,
+  "descricao": "Descrição ou parte da descrição",
+  "id": null,
+  "preco": null,
+  "tipo": null
+  }
+  ![Alt text](assets/filtros.PNG)
+
 ### CI/CD Jenkins + Sonar
 
 * A branch 'master' desse projeto está configurada para que sejam executados os testes unitários
