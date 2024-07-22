@@ -1,26 +1,77 @@
-# Getting Started
-### Reference Documentation
-For further reference, please consider the following sections:
+# Sênior ERP - API de Pedidos
 
-* [Official Apache Maven documentation](https://maven.apache.org/guides/index.html)
-* [Spring Boot Maven Plugin Reference Guide](https://docs.spring.io/spring-boot/docs/3.3.1/maven-plugin/reference/html/)
-* [Create an OCI image](https://docs.spring.io/spring-boot/docs/3.3.1/maven-plugin/reference/html/#build-image)
+* Java 11
+* Maven 3.9.6
+* PostgreSQL 15
+* QueryDSL 4.4.0
+* Spring Security + OAuth2 Para autenticação com JWT
+* A API foi desenvolvida de acordo com os princípios SOLID.
 
-### Maven Parent overrides
+### Execução de Testes unitários LOCALHOST:
 
-Due to Maven's design, elements are inherited from the parent POM to the project POM.
-While most of the inheritance is fine, it also inherits unwanted elements like `<license>` and `<developers>` from the parent.
-To prevent this, the project POM contains empty overrides for these elements.
-If you manually switch to a different parent and actually want the inheritance, you need to remove those overrides.
+* Para executar os testes unitários localmente, é necessário configurar o JDK e o maven nas
+  variáveis ambiente do sistema;
+* Acesse a pasta raiz do projeto 'senior-erp-spring' e execute o comando:  mvn verify
+* O mvn verify executará os testes unitários, Esse comando também cria a pasta 'target'.
+* O relatório de teste do jacoco será gerado após o comando acima no
+  caminho: target\site\jacoco\index.html
+* Exemplo:
+  ![Alt text](assets/jacoco-testes.PNG)
+* Também é possível acessar o resultado de testes no sonar. Esse projeto está configurado
+  com CI/CD Jenkins + Sonar para análise contínua de código + Deploy docker.
+  Para verificar o relatório de testes no
+  SONAR:  [IR PARA O SONAR](http://cloudtecnologia.dynns.com:9000/dashboard?id=senior-erp-spring)
+  ![Alt text](assets/SONAR.PNG)
 
+### Subindo o projeto em LOCALHOST:
 
+* É necessário possuir o DOCKER.
+* Na pasta raiz do projeto: 'senior-erp-spring' execute o comando: docker compose up -d --build
+* Esse comando subirá o container do banco de dados do sistema e o próprio sistema.
+* Após subir o projeto localmente, será possível acessar a documentação da API - Swagger através
+  da URL: [http://localhost:8095/swagger-ui.html](http://localhost:8095/swagger-ui.html)
+  ![Alt text](assets/swagger.PNG)
 
+### Consumindo a API:
 
+* Para consumir a API através do Swagger ou POSTMAN, será necessário obter o TOKEN JWT.
+* A url para obtenção dos tokens: [http://localhost:8095/oauth/token](http://localhost:8095/oauth/token)
+* O Verbo HTTP é: POST
+* Deverá ser passado o Header Authorization como Basic Auth, o Username é: senior-erp-cli
+  o Password: @321-senior
+* No BODY, deverá ser passado como x-www-form-urlencoded os seguintes parametros:
+* username: admin
+* password: senior-erp
+* grant_type: password
+* Exemplo de obtenção do TOKEN via POSTMAN:
+  ![Alt text](assets/token-1.PNG)
+  ![Alt text](assets/token-2.PNG)
+* Após obter o token JWT, será possível consumir a API passando em todas as requisições POSTMAN
+  ou no Swagger o TOKEN Jwt no Header Authorization.
+* Exemplo de Autenticação no Swagger com o TOKEN obtido, basta informar no campo
+  o token JWT, informe assim:  Bearer meu-token-jwt:
+* Exemplo:
+  ![Alt text](assets/auth-swagger.PNG)
+* Após autorização todos os endpoints estarão disponíveis para uso no SWAGGER.
+* Para informar o token obtido no POSTMAN faça como no exemplo:
+  ![Alt text](assets/auth-postman.PNG)
 
-README inicial
+### Informações sobre endpoins / funcionalidades da API:
 
-Teste imagem:
-![Alt text](assets/teste.JPG)
+* Para ter acesso as operações de Create/Read/Update/Delete referente ao ProdutoServiço e Pedidos
+  Acesse a documentação swagger: [http://localhost:8095/swagger-ui.html](http://localhost:8095/swagger-ui.html)
+* A documentação fornecerá as informações necessárias para que seja consumida a API de forma correta.
+* Endpoints ProdutoServiço:
+  ![Alt text](assets/endpoint-prodserv.PNG)
+* Endpoints Pedido:
+  ![Alt text](assets/endpoint-pedido.PNG)
 
-Exemplo 2 iamgem:
-![Exemplo de Imagem](assets/exemplo.png)
+### CI/CD Jenkins + Sonar
+
+* A branch 'master' desse projeto está configurada para que sejam executados os testes unitários
+  e publicado o resultado no
+  SONAR: [IR PARA O SONAR](http://cloudtecnologia.dynns.com:9000/dashboard?id=senior-erp-spring)
+* Também é possível verificar a análise de qualidade de código.
+* Além dos testes unitários o Jenkins faz o deploy da API em um servidor docker.
+* A API também poderá ser acessada nesse
+  servidor:  [http://cloudtecnologia.dynns.com:8095/swagger-ui.html](http://cloudtecnologia.dynns.com:8095/swagger-ui.html)
